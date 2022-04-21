@@ -4,3 +4,9 @@ block styles
 
 block content
 	main
+		if products.length > 0
+			ul
+				each p in products
+					li #{p.productData.title} (#{p.quantity})
+		else
+			h1 No products in cart!
