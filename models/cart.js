@@ -16,19 +16,19 @@ module.exports = class Cart {
 				(product) => product.id === id,
 			);
 			const existingProduct = cart.products[existingProductIndex];
-			let updateProduct;
+			let updatedProduct;
 			// Add new product / increase quantity
 			if (existingProduct) {
-				updateProduct = { ...existingProduct };
-				updateProduct.quantity = updateProduct.quantity + 1;
+				updatedProduct = { ...existingProduct };
+				updatedProduct.quantity = updatedProduct.quantity + 1;
 				cart.products = [...cart.products];
-				cart.products[existingProductIndex] = updateProduct;
+				cart.products[existingProductIndex] = updatedProduct;
 			} else {
-				updateProduct = {
+				updatedProduct = {
 					id: id,
 					quantity: 1,
 				};
-				cart.products = [...cart.products, updateProduct];
+				cart.products = [...cart.products, updatedProduct];
 			}
 			cart.totalPrice = cart.totalPrice + +productPrice;
 			fs.writeFile(p, JSON.stringify(cart), (err) => {
