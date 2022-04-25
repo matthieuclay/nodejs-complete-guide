@@ -15,15 +15,25 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
 	const productId = req.params.productId;
-	Product.findById(productId)
-		.then(([product]) => {
+	Product.findByPk(productId)
+		.then((product) => {
 			res.render('shop/product-detail', {
-				product: product[0],
-				pageTitle: product[0].title + ' - $' + product[0].price,
+				product,
+				pageTitle: product.title + ' - $' + product.price,
 				path: '/products',
 			});
 		})
 		.catch((err) => console.error(err));
+
+	// Product.findAll({where: {id:productId}})
+	// 	.then((products) => {
+	// 		res.render('shop/product-detail', {
+	// 			product: products[0],
+	// 			pageTitle: products[0].title + ' - $' + products[0].price,
+	// 			path: '/products',
+	// 		});
+	// 	})
+	// 	.catch((err) => console.error(err));
 };
 
 exports.getIndex = (req, res, next) => {
