@@ -1,5 +1,17 @@
 const Product = require('../models/product');
 
+exports.getProducts = (req, res, next) => {
+	Product.findAll()
+		.then((products) => {
+			res.render('admin/products', {
+				products,
+				pageTitle: 'Admin products',
+				path: '/admin/products',
+			});
+		})
+		.catch((err) => console.error(err));
+};
+
 exports.getAddProduct = (req, res, next) => {
 	res.render('admin/edit-product', {
 		pageTitle: 'Add product',
@@ -57,16 +69,6 @@ exports.postEditProduct = (req, res, next) => {
 	);
 	updatedProduct.save();
 	res.redirect('/admin/products');
-};
-
-exports.getProducts = (req, res, next) => {
-	Product.fetchAll((products) => {
-		res.render('admin/products', {
-			products,
-			pageTitle: 'Admin products',
-			path: '/admin/products',
-		});
-	});
 };
 
 exports.postDeleteProduct = (req, res, next) => {
