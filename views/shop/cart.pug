@@ -14,5 +14,9 @@ block content
 						form(action='/cart-delete-item', method='POST')
 							input(type="hidden", name="productId", value=p.id)
 							button.btn(type="submit") Delete
+			hr
+			.centered
+				form(action="/create-order", method='POST')
+					button.btn(type='submit') Order now!
 		else
 			h1 No products in cart!
