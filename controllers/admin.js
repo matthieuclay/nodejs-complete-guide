@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
-	Product.fetchAll()
+	Product.find()
 		.then((products) => {
 			res.render('admin/products', {
 				products,
@@ -60,16 +60,14 @@ exports.postEditProduct = (req, res, next) => {
 	const updatedPrice = req.body.price;
 	const updatedDescription = req.body.description;
 
-	const product = new Product(
-		updatedTitle,
-		updatedImgUrl,
-		updatedPrice,
-		updatedDescription,
-		productId,
-	);
-
-	product
-		.save()
+	Product.findById(productId)
+		.then((product) => {
+			product.title = updatedTitle;
+			product.imgUrl = updatedImgUrl;
+			product.price = updatedPrice;
+			product.description = updatedDescription;
+			return product.save();
+		})
 		.then(() => res.redirect('/admin/products'))
 		.catch((err) => console.error(err));
 };
