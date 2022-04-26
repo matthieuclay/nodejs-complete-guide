@@ -21,6 +21,7 @@ class Product {
 		} else {
 			dbOp = db.collection('products').insertOne(this);
 		}
+
 		return dbOp
 			.then((result) => console.log(result))
 			.catch((err) => console.error(err));
@@ -33,7 +34,6 @@ class Product {
 			.find()
 			.toArray()
 			.then((products) => {
-				console.log(products);
 				return products;
 			})
 			.catch((err) => console.error(err));
@@ -46,9 +46,17 @@ class Product {
 			.find({ _id: new mongodb.ObjectId(productId) })
 			.next()
 			.then((product) => {
-				console.log(product);
 				return product;
 			})
+			.catch((err) => console.error(err));
+	}
+
+	static deleteById(productId) {
+		const db = getDb();
+		return db
+			.collection('products')
+			.deleteOne({ _id: new mongodb.ObjectId(productId) })
+			.then(() => console.log('Deleted'))
 			.catch((err) => console.error(err));
 	}
 }
