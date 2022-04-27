@@ -8,7 +8,6 @@ exports.getProducts = (req, res, next) => {
 				products,
 				pageTitle: 'All products',
 				path: '/products',
-				isAuthenticated: req.session.isLoggedIn,
 			});
 		})
 		.catch((err) => console.error(err));
@@ -22,7 +21,6 @@ exports.getProduct = (req, res, next) => {
 				product,
 				pageTitle: product.title + ' - $' + product.price,
 				path: '/products',
-				isAuthenticated: req.session.isLoggedIn,
 			});
 		})
 		.catch((err) => console.error(err));
@@ -49,7 +47,6 @@ exports.getCart = (req, res, next) => {
 				pageTitle: 'Your cart',
 				path: '/cart',
 				products,
-				isAuthenticated: req.session.isLoggedIn,
 			});
 		})
 		.catch((err) => console.error(err));
@@ -109,7 +106,6 @@ exports.getOrders = (req, res, next) => {
 				pageTitle: 'Your orders',
 				path: '/orders',
 				orders,
-				isAuthenticated: req.session.isLoggedIn,
 			});
 		})
 		.catch((err) => console.error(err));
