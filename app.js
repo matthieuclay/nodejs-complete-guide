@@ -5,11 +5,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const app = express();
+const store = new MongoDBStore({
+	uri: process.env.MONGODB_CONNECT,
+	collection: 'sessions',
+});
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
@@ -25,6 +30,7 @@ app.use(
 		secret: 'my secret long string for session',
 		resave: false,
 		saveUninitialized: false,
+		store,
 	}),
 );
 
