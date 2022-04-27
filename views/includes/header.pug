@@ -25,6 +25,7 @@ header.main-header
 			else	
 				li.main-header__item
 					form(action="/logout", method="post")
+						input(type="hidden", name="_csrf", value=csrfToken)
 						button(type="submit") Logout
 
 nav.mobile-nav
@@ -50,4 +51,5 @@ nav.mobile-nav
 		else	
 			li.mobile-nav__item
 				form(action="/logout", method="post")
+					input(type="hidden", name="_csrf", value=csrfToken)
 					button(type="submit") Logout
