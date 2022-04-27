@@ -62,8 +62,7 @@ exports.postCart = (req, res, next) => {
 		.then((product) => {
 			return req.user.addToCart(product);
 		})
-		.then((result) => {
-			console.log(result);
+		.then(() => {
 			res.redirect('/cart');
 		});
 };
@@ -72,7 +71,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 	const productId = req.body.productId;
 	req.user
 		.removeFromCart(productId)
-		.then((result) => res.redirect('/cart'))
+		.then(() => res.redirect('/cart'))
 		.catch((err) => console.error(err));
 };
 
