@@ -21,6 +21,7 @@ block content
 					label(for="description") Description
 					textarea#description(name="description", rows="5") #{product.description}
 				input(type="hidden", name="productId", value=product._id)
+				input(type="hidden", name="_csrf", value=csrfToken)
 				button.btn(type="submit") Update Product
 		else
 			form.product-form(action="/admin/add-product", method="POST")
@@ -36,4 +37,5 @@ block content
 				.form-control
 					label(for="description") Description
 					textarea#description(name="description", rows="5")
+				input(type="hidden", name="_csrf", value=csrfToken)
 				button.btn(type="submit") Add Product
