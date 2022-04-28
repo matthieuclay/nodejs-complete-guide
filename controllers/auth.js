@@ -40,6 +40,20 @@ exports.getSignup = (req, res, next) => {
 	});
 };
 
+exports.getReset = (req, res, next) => {
+	let message = req.flash('error');
+	if (message.length > 0) {
+		message = message[0];
+	} else {
+		message = null;
+	}
+	res.render('auth/reset', {
+		pageTitle: 'Reset password',
+		path: '/reset',
+		errorMessage: message,
+	});
+};
+
 exports.postLogin = (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
