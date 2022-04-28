@@ -70,19 +70,21 @@ exports.postEditProduct = (req, res, next) => {
 
 	Product.findById(productId)
 		.then((product) => {
+			if (product.userId !== req.user._id) {
+				return res.redirect('/');
+			}
 			product.title = updatedTitle;
 			product.imgUrl = updatedImgUrl;
 			product.price = updatedPrice;
 			product.description = updatedDescription;
-			return product.save();
+			return product.save().then(() => res.redirect('/admin/products'));
 		})
-		.then(() => res.redirect('/admin/products'))
 		.catch((err) => console.error(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
 	const productId = req.body.productId;
-	Product.findByIdAndRemove(productId)
+	Product.deleteOne({ _id: productId, userId: req.user._id })
 		.then(() => res.redirect('/admin/products'))
 		.catch((err) => console.error(err));
 };
