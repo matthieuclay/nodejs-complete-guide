@@ -114,7 +114,7 @@ exports.postLogin = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
-	const confirmPassword = req.body.confirmPassword;
+
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).render('auth/signup', {
@@ -124,35 +124,24 @@ exports.postSignup = (req, res, next) => {
 		});
 	}
 
-	User.findOne({ email })
-		.then((userDoc) => {
-			if (userDoc) {
-				req.flash(
-					'error',
-					'Email exists already, please pick a different one.',
-				);
-				return res.redirect('/signup');
-			}
-			return bcrypt
-				.hash(password, 12)
-				.then((hashedPassword) => {
-					const user = new User({
-						email,
-						password: hashedPassword,
-						cart: { items: [] },
-					});
-					return user.save();
-				})
-				.then(() => {
-					res.redirect('/login');
-					return transporter.sendMail({
-						from: process.env.GMAIL_ID,
-						to: email,
-						subject: 'Signup succeeded!',
-						html: '<h1>You successfully signed up!</h1>',
-					});
-				})
-				.catch((err) => console.error(err));
+	bcrypt
+		.hash(password, 12)
+		.then((hashedPassword) => {
+			const user = new User({
+				email,
+				password: hashedPassword,
+				cart: { items: [] },
+			});
+			return user.save();
+		})
+		.then(() => {
+			res.redirect('/login');
+			return transporter.sendMail({
+				from: process.env.GMAIL_ID,
+				to: email,
+				subject: 'Signup succeeded!',
+				html: '<h1>You successfully signed up!</h1>',
+			});
 		})
 		.catch((err) => console.error(err));
 };
