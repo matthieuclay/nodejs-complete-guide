@@ -61,7 +61,23 @@ exports.postAddProduct = (req, res, next) => {
 	product
 		.save()
 		.then(() => res.redirect('/admin/products'))
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			// return res.status(500).render('admin/edit-product', {
+			// 	pageTitle: 'Add product',
+			// 	path: '/admin/add-product',
+			// 	editing: false,
+			// 	hasError: true,
+			// 	product: {
+			// 		title,
+			// 		imgUrl,
+			// 		price,
+			// 		description,
+			// 	},
+			// 	errorMessage: 'Database operation failed, please try again.',
+			// 	validationErrors: [],
+			// });
+			res.redirect('/500');
+		});
 };
 
 exports.getEditProduct = (req, res, next) => {
