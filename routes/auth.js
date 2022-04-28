@@ -14,14 +14,25 @@ router.get('/reset', authController.getReset);
 
 router.get('/reset/:token', authController.getNewPassword);
 
-router.post('/login', authController.postLogin);
+router.post(
+	'/login',
+	[
+		body('email')
+			.isEmail()
+			.withMessage('Please enter a valid email address.'),
+		body('password', 'Password has to be valid.')
+			.isLength({ min: 5 })
+			.isAlphanumeric(),
+	],
+	authController.postLogin,
+);
 
 router.post(
 	'/signup',
 	[
 		check('email')
 			.isEmail()
-			.withMessage('Please enter a valid email.')
+			.withMessage('Please enter a valid email address.')
 			.custom((value, { req }) => {
 				// if (value === 'test@test.com') {
 				// 	throw new Error('This email address is forbidden.');
