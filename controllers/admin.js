@@ -13,7 +13,11 @@ exports.getProducts = (req, res, next) => {
 				path: '/admin/products',
 			});
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };
 
 exports.getAddProduct = (req, res, next) => {
@@ -148,12 +152,20 @@ exports.postEditProduct = (req, res, next) => {
 			product.description = updatedDescription;
 			return product.save().then(() => res.redirect('/admin/products'));
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };
 
 exports.postDeleteProduct = (req, res, next) => {
 	const productId = req.body.productId;
 	Product.deleteOne({ _id: productId, userId: req.user._id })
 		.then(() => res.redirect('/admin/products'))
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };

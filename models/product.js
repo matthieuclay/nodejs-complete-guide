@@ -55,7 +55,7 @@ module.exports = mongoose.model('Product', productSchema);
 
 // 		return dbOp
 // 			.then((result) => console.log(result))
-// 			.catch((err) => console.error(err));
+// 			.catch((err)=> {const error = new Error(err);error.httpStatusCode = 500;return next(error)});
 // 	}
 
 // 	static fetchAll() {
@@ -67,7 +67,7 @@ module.exports = mongoose.model('Product', productSchema);
 // 			.then((products) => {
 // 				return products;
 // 			})
-// 			.catch((err) => console.error(err));
+// 			.catch((err)=> {const error = new Error(err);error.httpStatusCode = 500;return next(error)});
 // 	}
 
 // 	static findById(productId) {
@@ -79,7 +79,7 @@ module.exports = mongoose.model('Product', productSchema);
 // 			.then((product) => {
 // 				return product;
 // 			})
-// 			.catch((err) => console.error(err));
+// 			.catch((err)=> {const error = new Error(err);error.httpStatusCode = 500;return next(error)});
 // 	}
 
 // 	static deleteById(productId) {
@@ -88,7 +88,7 @@ module.exports = mongoose.model('Product', productSchema);
 // 			.collection('products')
 // 			.deleteOne({ _id: new mongodb.ObjectId(productId) })
 // 			.then(() => console.log('Deleted'))
-// 			.catch((err) => console.error(err));
+// 			.catch((err)=> {const error = new Error(err);error.httpStatusCode = 500;return next(error)});
 // 	}
 // }
 

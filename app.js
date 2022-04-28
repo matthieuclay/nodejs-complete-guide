@@ -80,4 +80,8 @@ mongoose
 	.then(() => {
 		app.listen(3000);
 	})
-	.catch((err) => console.error(err));
+	.catch((err) => {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
+	});
