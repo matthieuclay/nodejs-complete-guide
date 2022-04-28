@@ -8,7 +8,7 @@ block content
 	main
 		if errorMessage
 			.user-message.user-message--error #{errorMessage}
-		form.reset-form(action="/login", method="POST")
+		form.reset-form(action="/reset", method="POST")
 			.form-control
 				label(for="email") Email
 				input#email(type="email", name="email")
