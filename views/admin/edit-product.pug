@@ -6,36 +6,22 @@ block styles
 
 block content
 	main
-		if editing
-			form.product-form(action="/admin/edit-product", method="POST")
-				.form-control
-					label(for="title") Title
-					input#title(type="text", name="title", value=product.title)
-				.form-control
-					label(for="imgUrl") Image URL
-					input#imgUrl(type="text", name="imgUrl", value=product.imgUrl)
-				.form-control
-					label(for="price") Price
-					input#price(type="number", name="price", step="0.01", value=product.price)
-				.form-control
-					label(for="description") Description
-					textarea#description(name="description", rows="5") #{product.description}
+		if errorMessage
+			.user-message.user-message--error #{errorMessage}
+		form.product-form(action=editing ? '/admin/edit-product' : '/admin/add-product', method="POST")
+			.form-control
+				label(for="title") Title
+				input#title(type="text", name="title", value=editing || hasError ? product.title : null)
+			.form-control
+				label(for="imgUrl") Image URL
+				input#imgUrl(type="text", name="imgUrl", value=editing || hasError ? product.imgUrl : null)
+			.form-control
+				label(for="price") Price
+				input#price(type="number", name="price", step="0.01", value=editing || hasError ? product.price : null)
+			.form-control
+				label(for="description") Description
+				textarea#description(name="description", rows="5") #{editing || hasError ? product.description : null}
+			if editing
 				input(type="hidden", name="productId", value=product._id)
-				input(type="hidden", name="_csrf", value=csrfToken)
-				button.btn(type="submit") Update Product
-		else
-			form.product-form(action="/admin/add-product", method="POST")
-				.form-control
-					label(for="title") Title
-					input#title(type="text", name="title")
-				.form-control
-					label(for="imgUrl") Image URL
-					input#imgUrl(type="text", name="imgUrl")
-				.form-control
-					label(for="price") Price
-					input#price(type="number", name="price", step="0.01")
-				.form-control
-					label(for="description") Description
-					textarea#description(name="description", rows="5")
-				input(type="hidden", name="_csrf", value=csrfToken)
-				button.btn(type="submit") Add Product
+			input(type="hidden", name="_csrf", value=csrfToken)
+			button.btn(type="submit") #{editing ? 'Edit Product' : 'Add Product'}
