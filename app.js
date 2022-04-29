@@ -22,10 +22,10 @@ const csrfProtection = csrf();
 
 const fileStorage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, 'imgs');
+		cb(null, 'images');
 	},
 	filename: (req, file, cb) => {
-		cb(null, new Date().toISOString() + '-' + file.originalname);
+		cb(null, Date.now() + '-' + file.originalname);
 	},
 });
 
@@ -49,7 +49,7 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage, fileFilter }).single('img'));
+app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
 	session({
@@ -97,9 +97,10 @@ app.use((error, req, res, next) => {
 	// res.status(error.httpStatusCode).render(...);
 	// res.redirect('/500');
 	res.status(500).render('500', {
-		pageTitle: 'Error 500',
+		pageTitle: 'Server error',
 		path: '/500',
 		isAuthenticated: req.session.isLoggedIn,
+		csrfToken: '',
 	});
 });
 

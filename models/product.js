@@ -7,7 +7,7 @@ const productSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	imgUrl: {
+	imageUrl: {
 		type: String,
 		required: true,
 	},
@@ -32,9 +32,9 @@ module.exports = mongoose.model('Product', productSchema);
 // const getDb = require('../utils/database').getDb;
 
 // class Product {
-// 	constructor(title, imgUrl, price, description, _id, userId) {
+// 	constructor(title, imageUrl, price, description, _id, userId) {
 // 		this.title = title;
-// 		this.imgUrl = imgUrl;
+// 		this.imageUrl = imageUrl;
 // 		this.price = price;
 // 		this.description = description;
 // 		this._id = _id ? new mongodb.ObjectId(_id) : null;
