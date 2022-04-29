@@ -29,6 +29,18 @@ const fileStorage = multer.diskStorage({
 	},
 });
 
+const fileFilter = (req, file, cb) => {
+	if (
+		file.mimetype === 'image/png' ||
+		file.mimetype === 'image/jpg' ||
+		file.mimetype === 'image/jpeg'
+	) {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
+};
+
 app.set('view engine', 'pug');
 app.set('views', 'views');
 
@@ -37,7 +49,7 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage }).single('img'));
+app.use(multer({ storage: fileStorage, fileFilter }).single('img'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
 	session({
