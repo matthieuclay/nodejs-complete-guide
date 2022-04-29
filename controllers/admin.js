@@ -62,7 +62,6 @@ exports.postAddProduct = (req, res, next) => {
 			hasError: true,
 			product: {
 				title,
-				imageUrl,
 				price,
 				description,
 			},
