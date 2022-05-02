@@ -1,8 +1,11 @@
 const express = require('express');
 
-const feedRoutes = require('../routes/feed');
+const feedRoutes = require('./routes/feed');
 
 const app = express();
+
+// app.use(express.urlencoded()); // x-www-form-urlencoded
+app.use(express.json()); // application/json
 
 app.use('/feed', feedRoutes);
 
