@@ -19,15 +19,6 @@ block content
 						.card__actions
 							a.btn(href='/products/'+ product._id) Details
 							include ../includes/add-to-cart.pug
-			section.pagination
-				if currentPage != 1 && previousPage != 1
-					a(href="/?page=1") 1
-				if hasPreviousPage
-					a(href="/?page=" + previousPage) #{previousPage}
-				a(href="/?page=" + currentPage, class="active") #{currentPage}
-				if hasNextPage
-					a(href="/?page=" + nextPage) #{nextPage}
-				if lastPage !== currentPage && nextPage !== lastPage
-					a(href="/?page=" + lastPage) #{lastPage}
+			include ../includes/pagination.pug
 		else
 			h1 No products...
