@@ -6,12 +6,42 @@ const { validationResult } = require('express-validator');
 const Post = require('../models/post');
 
 exports.getPosts = (req, res, next) => {
+	const currentPage = req.query.page || 1;
+	const perPage = 2;
+	let totalItems;
 	Post.find()
+		.countDocuments()
+		.then((count) => {
+			totalItems = count;
+			return Post.find()
+				.skip((currentPage - 1) * perPage)
+				.limit(perPage);
+		})
 		.then((posts) => {
 			res.status(200).json({
 				message: 'Fetched posts successfully.',
 				posts,
+				totalItems,
 			});
+		})
+		.catch((err) => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+		});
+};
+
+exports.getPost = (req, res, next) => {
+	const postId = req.params.postId;
+	Post.findById(postId)
+		.then((post) => {
+			if (!post) {
+				const error = new Error('Could not find post.');
+				error.statusCode = 404;
+				throw error;
+			}
+			res.status(200).json({ message: 'Post fetched.', post });
 		})
 		.catch((err) => {
 			if (!err.statusCode) {
@@ -50,25 +80,6 @@ exports.createPost = (req, res, next) => {
 				message: 'Post created successfully',
 				post: result,
 			});
-		})
-		.catch((err) => {
-			if (!err.statusCode) {
-				err.statusCode = 500;
-			}
-			next(err);
-		});
-};
-
-exports.getPost = (req, res, next) => {
-	const postId = req.params.postId;
-	Post.findById(postId)
-		.then((post) => {
-			if (!post) {
-				const error = new Error('Could not find post.');
-				error.statusCode = 404;
-				throw error;
-			}
-			res.status(200).json({ message: 'Post fetched.', post });
 		})
 		.catch((err) => {
 			if (!err.statusCode) {
@@ -137,8 +148,7 @@ exports.deletePost = (req, res, next) => {
 			clearImage(post.imageUrl);
 			return Post.findByIdAndRemove(postId);
 		})
-		.then((result) => {
-			console.log(result);
+		.then(() => {
 			res.status(200).json({ message: 'Deleted post.' });
 		})
 		.catch((err) => {
