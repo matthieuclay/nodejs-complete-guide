@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const authController = require('../controllers/auth');
 
-describe('auth-controller.js - login', function () {
+describe('auth-controller.js', function () {
 	it('should throw an error with code 500 if accessing the database fails', function (done) {
 		sinon.stub(User, 'findOne');
 		User.findOne.throws();
@@ -59,7 +59,13 @@ describe('auth-controller.js - login', function () {
 					.then(() => {
 						expect(res.statusCode).to.be.equal(200);
 						expect(res.userStatus).to.be.equal('I am new!');
-						done();
+						User.deleteMany({})
+							.then(() => {
+								return mongoose.disconnect();
+							})
+							.then(() => {
+								done();
+							});
 					});
 			})
 			.catch((err) => console.error(err));
