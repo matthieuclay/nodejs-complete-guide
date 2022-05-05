@@ -22,4 +22,23 @@ describe('auth-middleware.js', function () {
 		};
 		expect(authMiddleware.bind(this, req, {}, () => {})).to.throw();
 	});
+
+	it('should throw an error if the token cannot be verified', function () {
+		const req = {
+			get: function () {
+				return 'Bearer abc';
+			},
+		};
+		expect(authMiddleware.bind(this, req, {}, () => {})).to.throw();
+	});
+
+	it('should yield a userId after decoding the token', function () {
+		const req = {
+			get: function () {
+				return 'Bearer abc';
+			},
+		};
+		authMiddleware(req, {}, () => {});
+		expect(req).to.have.property('userId');
+	});
 });
