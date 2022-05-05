@@ -129,4 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+
+### essential
 nodemon.json
+node_modules
+server.cert
+server.key
