@@ -5,11 +5,23 @@ const User = require('../models/user');
 const authController = require('../controllers/auth');
 
 describe('auth-controller.js - login', function () {
-	it('should throw an error with code 500 if accessing the database fails', function () {
+	it('should throw an error with code 500 if accessing the database fails', function (done) {
 		sinon.stub(User, 'findOne');
 		User.findOne.throws();
 
-		expect(authController.login);
+		const req = {
+			body: {
+				email: 'test@test.com',
+				password: 'test123',
+			},
+		};
+		authController
+			.login(req, {}, () => {})
+			.then((result) => {
+				expect(result).to.be.an('error');
+				expect(result).to.have.property('statusCode', 500);
+				done();
+			});
 
 		User.findOne.restore();
 	});
