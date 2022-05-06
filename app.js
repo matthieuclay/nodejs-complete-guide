@@ -1,2 +1,5 @@
-// For convert .ts to .js, run this command:
-// tsc app.js
+const express = require('express');
+
+const app = express();
+
+app.listen(3000);
