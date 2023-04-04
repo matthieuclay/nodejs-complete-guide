@@ -19,9 +19,7 @@ router.post('/todo', (req, res, next) => {
 		id: new Date().toISOString(),
 		text: body.text,
 	};
-
 	todos.push(newTodo);
-
 	res.status(201).json({
 		message: 'Added Todo',
 		todo: newTodo,
